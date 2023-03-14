@@ -1,33 +1,51 @@
-import { React, useEffect, useState } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import axios from 'axios'
 
-const App = () => {
-  const [userDetails, setUserdetails] = useState()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState()
+const initialState = {
+  loading: true,
+  error: '',
+  users: {},
+}
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_SUCCESS':
+      return {
+        loading: false,
+        users: action.payload,
+        error: '',
+      }
+    case 'FETCH_ERROR':
+      return {
+        loading: false,
+        error: 'Something went wrong!',
+        users: {},
+      }
+    default:
+      return state
+  }
+}
+const App = () => {
+  const [state, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
     axios
       .get('https://jsonplaceholder.typicode.com/users')
       .then((response) => {
-        console.log(response)
-        setUserdetails(response.data)
-        setError(false)
-        setLoading(false)
+        dispatch({ type: 'FETCH_SUCCESS', payload: response.data })
       })
       .catch((error) => {
-        setError('there was an error')
-        setLoading(false)
-        setUserdetails({})
+        dispatch({ type: 'FETCH_ERROR' })
       })
   }, [])
   return (
     <div>
-      {loading ? (<p>loading...</p>) 
-      : error ? (<p>{error}</p>)
-      : (
+      {state.loading ? (
+        <p>loading...</p>
+      ) : state.error ? (
+        <p>{state.error}</p>
+      ) : (
         <ul>
-          {userDetails.map((user) => (
+          {state.users.map((user) => (
             <li key={user.id}>
               <h1>{user.name}</h1>
               <p>{user.email}</p>
