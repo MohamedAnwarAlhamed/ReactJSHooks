@@ -1,21 +1,14 @@
-import React from 'react'
+import { React, useContext } from 'react'
 import { UserContext, ChannelContext } from '../App'
 const C = () => {
+  const user = useContext(UserContext);
+  const channel = useContext(ChannelContext);
   return (
     <div>
-        <UserContext.Consumer>
-            {(user) => {
-                return (
-                  <ChannelContext.Consumer>
-                  {(channel) => {
-                      return (
-                            <h1> {user} - {channel} </h1>
-                      );
-                  }}
-                  </ChannelContext.Consumer>
-                );
-              }}
-              </UserContext.Consumer>
+      <h1>
+        {' '}
+        {user} - {channel}{' '}
+      </h1>
     </div>
   )
 }
