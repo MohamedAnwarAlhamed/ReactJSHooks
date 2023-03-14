@@ -1,26 +1,40 @@
-import { React, useReducer, createContext } from 'react'
-import reducer from './reducer'
-import {initialState} from './reducer'
-import A from './components/comA'
-import B from './components/comB'
-import C from './components/comC'
-
-export const countContext = createContext()
+import { React, useEffect, useState } from 'react'
+import axios from 'axios'
 
 const App = () => {
-  const [count1, dispatch1] = useReducer(reducer, initialState)
+  const [userDetails, setUserdetails] = useState()
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState()
 
+  useEffect(() => {
+    axios
+      .get('https://jsonplaceholder.typicode.com/users')
+      .then((response) => {
+        console.log(response)
+        setUserdetails(response.data)
+        setError(false)
+        setLoading(false)
+      })
+      .catch((error) => {
+        setError('there was an error')
+        setLoading(false)
+        setUserdetails({})
+      })
+  }, [])
   return (
     <div>
-    <h1> count - {count1} </h1>
-
-      <countContext.Provider
-        value={{ countState: count1, countDispatch: dispatch1 }}
-      >
-        <A />
-        <B />
-        <C />
-      </countContext.Provider>
+      {loading ? (<p>loading...</p>) 
+      : error ? (<p>{error}</p>)
+      : (
+        <ul>
+          {userDetails.map((user) => (
+            <li key={user.id}>
+              <h1>{user.name}</h1>
+              <p>{user.email}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
