@@ -1,20 +1,30 @@
 import {React, useState, useEffect} from 'react'
+import axios from "axios";
 
 const App = () => {
-  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState([])
+  const [id, setId] = useState(1);
 
   useEffect(() => {
-    let timer = setTimeout(() => {
-    setCount((count) => count + 1);
-  }, 3000);
-
-  //return () => clearTimeout(timer)
-  }, []);
-  return (
+    //axios.get("https://jsonplaceholder.typicode.com/users")
+    fetch("https://jsonplaceholder.typicode.com/users")
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      setUsers(data)});
+  });
+    return (
     <div>
-    <h1>I have rendered {count} times!</h1>
+    <input type="text" value={id} onChange={(e)=> setId(e.target.value)} />
+    <ul>
+          {users.map(user => (
+            <li key={user.id}>{user.name}</li>
+          ))}
+        </ul>
      </div>
-  )
+  );
 }
+
 
 export default App
