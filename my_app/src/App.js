@@ -1,52 +1,26 @@
-import { React, useReducer } from 'react'
-// import A from './components/comA'
+import { React, useReducer, createContext } from 'react'
+import reducer from './reducer'
+import {initialState} from './reducer'
+import A from './components/comA'
+import B from './components/comB'
+import C from './components/comC'
 
-const initialState = { firstCount: 0, secondCount: 10 }
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'increment':
-      return { ...state,firstCount: state.firstCount + action.value }
-      break
-    case 'decrement':
-      return { ...state,firstCount: state.firstCount - action.value }
-      break
-    case 'incrementS':
-      return { ...state,secondCount: state.secondCount + action.value }
-      break
-    case 'decrementS':
-      return { ...state,secondCount: state.secondCount - action.value }
-      break
-    case 'reset':
-      return initialState
-      break
-    default:
-      return state
-  }
-}
+export const countContext = createContext()
 
 const App = () => {
   const [count1, dispatch1] = useReducer(reducer, initialState)
 
   return (
     <div>
-      <h1> count1 - {count1.firstCount} </h1>
-      <button onClick={() => dispatch1({ type: 'increment', value: 5 })}>
-        +
-      </button>
-      <button onClick={() => dispatch1({ type: 'decrement', value: 5 })}>
-        -
-      </button>
-      <button onClick={() => dispatch1({ type: 'reset' })}>0</button>
+    <h1> count - {count1} </h1>
 
-      <h1> count1 - {count1.secondCount} </h1>
-      <button onClick={() => dispatch1({ type: 'incrementS', value: 5 })}>
-        +
-      </button>
-      <button onClick={() => dispatch1({ type: 'decrementS', value: 5 })}>
-        -
-      </button>
-      <h1>reset all</h1>
-      <button onClick={() => dispatch1({ type: 'reset' })}>0</button>
+      <countContext.Provider
+        value={{ countState: count1, countDispatch: dispatch1 }}
+      >
+        <A />
+        <B />
+        <C />
+      </countContext.Provider>
     </div>
   )
 }

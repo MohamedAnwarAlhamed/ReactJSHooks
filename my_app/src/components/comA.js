@@ -1,10 +1,18 @@
-import React from 'react'
-import B from './comB'
+import {React, useContext} from 'react'
+import {countContext} from '../App'
+
 
 const A = () => {
+  const ConutContext = useContext(countContext)
   return (
     <div>
-        <B />
+        <button onClick={() => ConutContext.countDispatch('increment')}>
+          +
+        </button>
+        <button onClick={() => ConutContext.countDispatch('decrement')}>
+          -
+        </button>
+        <button onClick={() => ConutContext.countDispatch('reset')}>0</button>
     </div>
   )
 }

@@ -1,15 +1,19 @@
-import React from 'react'
-import { UserContext } from '../App'
+import  {React, useContext} from 'react'
+import {countContext} from '../App'
+
 const C = () => {
+  const ConutContext = useContext(countContext)
   return (
     <div>
-        <UserContext.Consumer>
-            {(user) => {
-                return <div>Hello {user}</div>
-            }}
-        </UserContext.Consumer>
+    <button onClick={() => ConutContext.countDispatch('increment')}>
+      +
+    </button>
+    <button onClick={() => ConutContext.countDispatch('decrement')}>
+      -
+    </button>
+    <button onClick={() => ConutContext.countDispatch('reset')}>0</button>
     </div>
   )
 }
 
-export default comC
+export default C
