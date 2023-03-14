@@ -7,8 +7,10 @@ export const ChannelContext = createContext()
 const App = () => {
   return (
     <div>
-      <UserContext.Provider value={"mohamed"}>
-        <A />
+      <UserContext.Provider value={'mohamed'}>
+        <ChannelContext.Provider value={'react'}>
+          <A />
+        </ChannelContext.Provider>
       </UserContext.Provider>
     </div>
   )
