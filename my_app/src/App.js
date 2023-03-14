@@ -1,20 +1,20 @@
 import { React, useReducer } from 'react'
 // import A from './components/comA'
 
-const initialState = 0
+const initialState = {firstCount:0}
 const reducer = (state, action) => {
   switch (action) {
     case 'increment':
-      return state + 1
+      return {firstCount:state.firstCount + 1}
       break
     case 'decrement':
-      return state - 1
+      return {firstCount:state.firstCount - 1}
       break
     case 'reset':
       return initialState
       break
     default:
-      return state
+      return state.firstCount
   }
 }
 
@@ -24,16 +24,11 @@ const App = () => {
 
   return (
     <div>
-      <h1> count1 - {count1} </h1>
+      <h1> count1 - {count1.firstCount} </h1>
       <button onClick={() => dispatch1('increment')}>+</button>
       <button onClick={() => dispatch1('decrement' )}>-</button>
       <button onClick={() => dispatch1('reset')}>0</button>
 
-
-      <h1> count2 - {count2} </h1>
-      <button onClick={() => dispatch2('increment')}>+</button>
-      <button onClick={() => dispatch2('decrement' )}>-</button>
-      <button onClick={() => dispatch2('reset')}>0</button>
     </div>
   )
 }
