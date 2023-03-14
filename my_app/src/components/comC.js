@@ -1,16 +1,15 @@
-import { React, useContext } from 'react'
-import { UserContext, ChannelContext } from '../App'
+import React from 'react'
+import { UserContext } from '../App'
 const C = () => {
-  const user = useContext(UserContext);
-  const channel = useContext(ChannelContext);
   return (
     <div>
-      <h1>
-        {' '}
-        {user} - {channel}{' '}
-      </h1>
+        <UserContext.Consumer>
+            {(user) => {
+                return <div>Hello {user}</div>
+            }}
+        </UserContext.Consumer>
     </div>
   )
 }
 
-export default C
+export default comC
