@@ -12,4 +12,4 @@ const useInput = (initialValue) => {
   return [value, bind, reset]
 }
 
-export default useInput;
+export default useInput; 
